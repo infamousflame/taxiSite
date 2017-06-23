@@ -10,6 +10,9 @@ var input2 = document.getElementById('pac-input-2');
 
 var map;
 
+var bounds;
+var bounds2
+
 window.onload = function() {
   initMap();
   searchBox = new google.maps.places.SearchBox(input);
@@ -28,7 +31,6 @@ function initAutocomplete() {
        searchBox = new google.maps.places.SearchBox(input);
        searchBox2 = new google.maps.places.SearchBox(input2);
       //  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
        // Bias the SearchBox results towards current map's viewport.
        map.addListener('bounds_changed', function() {
          searchBox.setBounds(map.getBounds());
@@ -41,15 +43,6 @@ function initAutocomplete() {
        searchBox.addListener('places_changed', function() {
          var places = searchBox.getPlaces();
          var places2 = searchBox2.getPlaces();
-
-         if (places.length == 0) {
-           return;
-         }
-
-         if(places2.length == 0){
-           return;
-         }
-
          // Clear out the old markers.
          markers.forEach(function(marker) {
            marker.setMap(null);
@@ -57,7 +50,7 @@ function initAutocomplete() {
          markers = [];
 
          // For each place, get the icon, name and location.
-         var bounds = new google.maps.LatLngBounds();
+          bounds = new google.maps.LatLngBounds();
          places.forEach(function(place) {
            if (!place.geometry) {
              console.log("Returned place contains no geometry");
@@ -87,7 +80,7 @@ function initAutocomplete() {
            }
          });
 
-         var bounds2 = new google.maps.LatLngBounds();
+         bounds2 = new google.maps.LatLngBounds();
          places2.forEach(function(place) {
            if (!place.geometry) {
              console.log("Returned place contains no geometry");
@@ -115,16 +108,12 @@ function initAutocomplete() {
            } else {
              bounds2.extend(place.geometry.location);
            }
-         });
-
-
+        });
+        console.log(bounds);
          //  console.log(google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(bounds.b.b, bounds.f.f), new google.maps.LatLng(bounds2.b.b, bounds2.f.f)));
        });
+     }
 
-      if(bounds != undefined && bounds2 != undefined){
-        
-      }
-    }
-function getDistance(){
-  console.log("hello");
+function calcDist(){
+  console.log(initAutocomplete());
 }
