@@ -147,4 +147,24 @@ function calcDist(){
   // console.log(google.maps.geometry.spherical.computeDistanceBetween (latlng2, latlng1)/1000);
   console.log(location1.f.b + " " + location1.b.f);
   console.log(location2.f.b + " " + location2.b.f);
+  var service = new google.maps.DistanceMatrixService();
+
+  service.getDistanceMatrix(
+    {
+    origins: [{lat: location1.f.b, lng: location1.b.f}],
+    destinations: [{lat: location2.f.b, lng: location2.b.f}],
+    travelMode: 'DRIVING',
+    unitSystem: google.maps.UnitSystem.IMPERIAL,
+    drivingOptions: {
+      departureTime: new Date(Date.now()),  // for the time N milliseconds from now.
+      trafficModel: 'optimistic'
+    }
+  }, callback);
+
+  function callback(response, status) {
+    // See Parsing the Results for
+    // the basics of a callback function.
+    console.log("Response: " + response + " Status: " + status)
+    console.log(response)
+  }
 }
